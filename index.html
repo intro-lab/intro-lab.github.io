@@ -2,15 +2,22 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>나의 심플 마크다운 블로그</title>
-    <!-- 마크다운을 HTML로 변환해주는 라이브러리 -->
-    <script src="https://jsdelivr.net/marked.min.js"></script>
+    <title>나의 심플 블로그</title>
     <style>
         body { font-family: sans-serif; max-width: 800px; margin: 40px auto; padding: 0 20px; line-height: 1.6; }
         h1 { border-bottom: 2px solid #eee; padding-bottom: 10px; }
         .post-list { list-style: none; padding: 0; }
         .post-list li { margin: 10px 0; cursor: pointer; color: #0066cc; text-decoration: underline; }
-        #post-content { margin-top: 30px; padding: 20px; border: 1px solid #ddd; background: #f9f9f9; display: none; }
+        /* 글 내용이 출력되는 박스 (줄바꿈을 그대로 유지하도록 white-space 속성 추가) */
+        #post-content { 
+            margin-top: 30px; 
+            padding: 20px; 
+            border: 1px solid #ddd; 
+            background: #f9f9f9; 
+            display: none; 
+            white-space: pre-wrap; /* 엔터와 공백을 화면에 그대로 보여줍니다 */
+            word-break: break-all;
+        }
     </style>
 </head>
 <body>
@@ -27,14 +34,14 @@
     <div id="post-content"></div>
 
     <script>
-        // 마크다운 파일을 읽어와 화면에 뿌려주는 함수
+        // 외부 주소(CDN) 없이 브라우저 내장 기능만으로 파일을 읽어옵니다
         async function loadPost(fileName) {
-            const response = await fetch('posts/${fileName}');
-            const markdownText = await response.text();
+            const response = await fetch(`posts/${fileName}`);
+            const textData = await response.text();
             
             const contentDiv = document.getElementById('post-content');
-            // 마크다운을 HTML로 변환하여 삽입
-            contentDiv.innerHTML = marked.parse(markdownText);
+            // 내장된 안전한 텍스트 삽입 기능(innerText)을 사용합니다
+            contentDiv.innerText = textData;
             contentDiv.style.display = 'block';
         }
     </script>
