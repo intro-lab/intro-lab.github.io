@@ -29,7 +29,7 @@
     <script>
         // 마크다운 파일을 읽어와 화면에 뿌려주는 함수
         async function loadPost(fileName) {
-            const response = await fetch(`_posts/${fileName}`);
+            const response = await fetch(`posts/${fileName}`);
             const markdownText = await response.text();
             
             const contentDiv = document.getElementById('post-content');
