@@ -37,7 +37,7 @@
         // 외부 주소(CDN) 없이 브라우저 내장 기능만으로 파일을 읽어옵니다
         async function loadPost(fileName) {
             // [수정] 파일명 뒤에 매번 바뀌는 임시 번호(?v=시간)를 붙여 서버 캐시를 강제로 파괴합니다
-            const response = await fetch(`posts/${fileName}?v=${Date.now()}`);
+            const response = await fetch(`${fileName}?v=${Date.now()}`);
             const textData = await response.text();
             
             const contentDiv = document.getElementById('post-content');
