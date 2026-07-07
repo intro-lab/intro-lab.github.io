@@ -6,6 +6,10 @@ const postsDir = path.join(__dirname, 'posts');
 // 💡 완성된 HTML 파일들이 저장될 하위 폴더 지정 ('pages' 폴더)
 const outputDir = path.join(__dirname, 'pages'); 
 
+// 💡 본인의 구글 애드센스 코드를 상수로 선언합니다. (pub 번호 꼭 변경하세요!)
+const ADSENSE_CODE = `<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5588756282976438"
+     crossorigin="anonymous"></script>`;
+
 // 1. 본문 HTML 템플릿 (pages 폴더 내부에서 한 단계 위인 루트의 CSS/JS를 바라보도록 ../ 추가)
 const htmlTemplate = (title, content) => `<!DOCTYPE html>
 <html lang="ko">
@@ -13,7 +17,7 @@ const htmlTemplate = (title, content) => `<!DOCTYPE html>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>${title} - 나의 심플 블로그</title>
-    <link rel="stylesheet" href="../github-markdown.min.css">
+    ${ADSENSE_CODE} <link rel="stylesheet" href="../github-markdown.min.css">
     <link rel="stylesheet" href="../github.min.css">
     <script src="../highlight.js" defer></script>
     <script src="../python.min.js" defer></script>
@@ -64,7 +68,7 @@ const indexTemplate = (linksHtml) => `<!DOCTYPE html>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>나의 심플 블로그</title>
-    <style>
+    ${ADSENSE_CODE} <style>
         body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; max-width: 900px; margin: 40px auto; padding: 0 20px; line-height: 1.7; }
         h1 { border-bottom: 2px solid #eee; padding-bottom: 12px; font-size: 2rem; }
         .post-list { list-style: none; padding: 0; }
@@ -130,7 +134,7 @@ function buildBlog() {
     // index.html 자동 갱신 (index.html은 루트 자리에 그대로 생성)
     const finalIndex = indexTemplate(linksHtml || '<p>등록된 글이 없습니다.</p>');
     fs.writeFileSync(path.join(__dirname, 'index.html'), finalIndex, 'utf-8');
-    console.log('🎉 하위 폴더(pages/) 격리 및 빌드 완료!');
+    console.log('🎉 하위 폴더(pages/) 격리 및 애드센스 빌드 완료!');
 }
 
 buildBlog();
