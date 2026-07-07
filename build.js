@@ -8,7 +8,7 @@ const outputDir = path.join(__dirname, 'pages');
 const ADSENSE_CODE = `<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5588756282976438"
      crossorigin="anonymous"></script>`;
 
-// 1. 본문 HTML 템플릿
+// 1. 본문 HTML 템플릿 (KaTeX 폰트 오버라이딩 간섭 문제 해결 버전)
 const htmlTemplate = (title, content) => `<!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -28,22 +28,21 @@ const htmlTemplate = (title, content) => `<!DOCTYPE html>
     <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" defer></script>
 
     <style>
-        /* 💡 1. 블로그 기본 폰트 정의 (KaTeX 서체가 침범하지 못하도록 가장 구체적인 경로로 방어) */
-        body, 
-        .blog-header-title, 
-        .home-btn, 
-        .back-link,
-        .markdown-body,
-        .markdown-body h1, 
-        .markdown-body h2, 
-        .markdown-body h3, 
-        .markdown-body h4,
-        .markdown-body p,
-        .markdown-body li { 
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji" !important; 
+        /* 💡 KaTeX가 일반 텍스트 폰트를 침범하지 못하도록 강제 우선순위(!important)를 부여합니다. */
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Malgun Gothic", "맑은 고딕", sans-serif !important; 
+            max-width: 900px; 
+            margin: 40px auto; 
+            padding: 0 20px; 
+            line-height: 1.7; 
+        }
+        
+        /* 💡 마크다운 영역 내부의 제목(H1 ~ H4) 폰트가 명조체로 깨지는 문제를 방지합니다. */
+        .markdown-body h1, .markdown-body h2, .markdown-body h3, .markdown-body h4 {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Malgun Gothic", "맑은 고딕", sans-serif !important;
+            font-weight: bold;
         }
 
-        body { max-width: 900px; margin: 40px auto; padding: 0 20px; line-height: 1.7; }
         .blog-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #eee; padding-bottom: 12px; margin-bottom: 20px; }
         .blog-header-title { font-size: 2rem; font-weight: bold; color: #24292e; text-decoration: none; }
         .blog-header-title:hover { color: #0066cc; }
@@ -53,15 +52,13 @@ const htmlTemplate = (title, content) => `<!DOCTYPE html>
         .back-link:hover { text-decoration: underline; }
         .post-content { padding: 30px; border: 1px solid #e1e4e8; border-radius: 8px; background: #ffffff; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
         .post-content pre { background-color: #f6f8fa !important; padding: 16px; border-radius: 6px; overflow-x: auto; }
-        .post-content code { font-family: Consolas, Monaco, monospace !important; font-size: 14px; }
+        .post-content code { font-family: Consolas, Monaco, monospace; font-size: 14px; }
         
         /* 🧮 수식 정렬 및 모바일 여백 보정 */
         .katex-display { margin: 1.2em 0; overflow-x: auto; overflow-y: hidden; }
         
-        /* 💡 2. 오직 수식 기호 내부(.katex)와 그 하위 요소들만 수식 전용 서체를 쓰도록 한 번 더 격리 */
-        .katex, .katex * { 
-            font-family: KaTeX_Main, Times New Roman, serif !important; 
-        }
+        /* 💡 오직 수식 기호 내부에만 KaTeX 전용 서체를 할당합니다. */
+        .katex { font-family: KaTeX_Main, Times New Roman, serif !important; }
 
         @media (max-width: 480px) {
             body { margin: 20px auto; padding: 0 12px; }
@@ -87,21 +84,21 @@ const htmlTemplate = (title, content) => `<!DOCTYPE html>
     
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+            // 1. 코드 하이라이팅 적용
             if (typeof hljs !== 'undefined') {
                 document.querySelectorAll('pre code').forEach((el) => { hljs.highlightElement(el); });
             }
             
+            // 2. 🧮 KaTeX 자동 수식 렌더링 적용
             if (typeof renderMathInElement !== 'undefined') {
-                document.querySelectorAll('.post-content').forEach((el) => {
-                    renderMathInElement(el, {
-                        delimiters: [
-                            {left: '$$', right: '$$', display: true},   
-                            {left: '$', right: '$', display: false},     
-                            {left: '\\(', right: '\\)', display: false},
-                            {left: '\\[', right: '\\]', display: true}
-                        ],
-                        throwOnError: false
-                    });
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        {left: '$$', right: '$$', display: true},   // 블록 수식
+                        {left: '$', right: '$', display: false},     // 인라인 수식
+                        {left: '\\(', right: '\\)', display: false},
+                        {left: '\\[', right: '\\]', display: true}
+                    ],
+                    throwOnError: false
                 });
             }
         });
@@ -109,7 +106,7 @@ const htmlTemplate = (title, content) => `<!DOCTYPE html>
 </body>
 </html>`;
 
-// 2. 메인 목록(index.html) 템플릿 (끊겼던 부분 연결 및 완성)
+// 2. 메인 목록(index.html) 템플릿
 const indexTemplate = (linksHtml) => `<!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -130,63 +127,63 @@ const indexTemplate = (linksHtml) => `<!DOCTYPE html>
         
         @media (max-width: 480px) {
             body { margin: 20px auto; padding: 0 12px; }
-            .blog-header h1 { font-size: 1.6rem; }
+            .blog-header { padding-bottom: 8px; }
+            .blog-header h1 { font-size: 1.5rem; }
+            .home-btn { font-size: 0.85rem; padding: 4px 8px; }
+            .post-item { margin: 16px 0; padding-bottom: 12px; }
+            .post-link { font-size: 1.1rem; line-height: 1.4; }
         }
     </style>
 </head>
 <body>
     <header class="blog-header">
-        <h1>📝 intRo-Lab. Blog</h1>
+        <h1>📝 intRo-Lab. Blog </h1>
         <a href="https://www.intro-lab.com" target="_blank" class="home-btn">🏠 홈으로 가기</a>
     </header>
-    <main>
-        <ul class="post-list">
-            ${linksHtml}
-        </ul>
-    </main>
+    <ul class="post-list">${linksHtml}</ul>
 </body>
 </html>`;
 
-// 3. 빌드 실행 로직 생성
-function build() {
-    // 출력 폴더(pages)가 없으면 생성
-    if (!fs.existsSync(outputDir)) {
-        fs.mkdirSync(outputDir, { recursive: true });
+function parsePost(mdContent, defaultTitle) {
+    const match = mdContent.match(/^---\s*\n([\s\S]*?)\n---\s*\n/);
+    let title = defaultTitle;
+    let body = mdContent;
+
+    if (match) {
+        const metadata = match[1];
+        body = mdContent.replace(match[0], '');
+        const titleMatch = metadata.match(/^title:\s*["']?(.*?)["']?$/m);
+        if (titleMatch) title = titleMatch[1];
     }
-
-    // posts 폴더 내의 마크다운 파일 읽기
-    if (!fs.existsSync(postsDir)) {
-        console.error("❌ 'posts' 폴더가 존재하지 않습니다.");
-        return;
-    }
-
-    const files = fs.readdirSync(postsDir).filter(file => file.endsWith('.md'));
-    let linksHtml = '';
-
-    files.forEach(file => {
-        const filePath = path.join(postsDir, file);
-        const fileContent = fs.readFileSync(filePath, 'utf-8');
-        
-        // 파일명을 기반으로 타이틀 설정 (확장자 제거)
-        const title = path.basename(file, '.md');
-        
-        // 마크다운 -> HTML 변환
-        const htmlContent = marked(fileContent);
-        const fullHtml = htmlTemplate(title, htmlContent);
-        
-        // 변환된 HTML 파일 저장
-        const outputFileName = file.replace('.md', '.html');
-        fs.writeFileSync(path.join(outputDir, outputFileName), fullHtml, 'utf-8');
-        
-        // 메인 목록에 추가할 링크 HTML 생성
-        linksHtml += `<li class="post-item"><a class="post-link" href="pages/${outputFileName}">${title}</a></li>\n`;
-        console.log(`✅ 변환 완료: ${outputFileName}`);
-    });
-
-    // 메인 index.html 생성 (루트 경로 혹은 상위 폴더에 맞게 조정 필요)
-    const indexHtml = indexTemplate(linksHtml);
-    fs.writeFileSync(path.join(__dirname, 'index.html'), indexHtml, 'utf-8');
-    console.log('🎉 전체 블로그 빌드가 성공적으로 완료되었습니다! (index.html 업데이트됨)');
+    return { title, body };
 }
 
-build();
+function buildBlog() {
+    if (!fs.existsSync(outputDir)) fs.mkdirSync(outputDir);
+    if (!fs.existsSync(postsDir)) fs.mkdirSync(postsDir);
+    
+    const files = fs.readdirSync(postsDir);
+    const markdownFiles = files.filter(file => file.endsWith('.md')).sort().reverse();
+
+    let linksHtml = '';
+
+    markdownFiles.forEach(file => {
+        const filePath = path.join(postsDir, file);
+        const mdContent = fs.readFileSync(filePath, 'utf-8');
+        const fileNameWithoutExt = path.parse(file).name;
+        
+        const { title, body } = parsePost(mdContent, fileNameWithoutExt);
+        
+        const htmlContent = marked.parse(body);
+        const finalHtml = htmlTemplate(title, htmlContent);
+        
+        fs.writeFileSync(path.join(outputDir, `${fileNameWithoutExt}.html`), finalHtml, 'utf-8');
+        linksHtml += `<li class="post-item"><a href="pages/${fileNameWithoutExt}.html" class="post-link">${title}</a></li>\n`;
+    });
+
+    const finalIndex = indexTemplate(linksHtml || '<p>등록된 글이 없습니다.</p>');
+    fs.writeFileSync(path.join(__dirname, 'index.html'), finalIndex, 'utf-8');
+    console.log('🎉 하위 폴더(pages/) 격리, 애드센스 및 수식(KaTeX) 빌드 완료!');
+}
+
+buildBlog();
