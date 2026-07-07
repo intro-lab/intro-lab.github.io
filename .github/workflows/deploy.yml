@@ -31,5 +31,9 @@ jobs:
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git add .
-          # 변경사항이 있을 때만 커밋 및 푸시
-          git diff --quiet && git diff --staged --quiet || (git commit -m "Automated Build: Convert Markdown to HTML" && git push)
+          
+          # 💡 변경사항이 있을 때만 커밋을 생성하고, 원격 main 브랜치에 강제 푸시(-f)하여 충돌을 차단합니다.
+          git diff --quiet && git diff --staged --quiet || (
+            git commit -m "Automated Build: Convert Markdown to HTML" && 
+            git push -f origin main
+          )
