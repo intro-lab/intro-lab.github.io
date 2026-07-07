@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>파이썬 코드 리뷰 테스트 3 (2026-07-07) - intRo-Lab. Blog </title>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5588756282976438"
+     crossorigin="anonymous"></script> <link rel="stylesheet" href="../github-markdown.min.css">
+    <link rel="stylesheet" href="../github.min.css">
+    <script src="../highlight.js" defer></script>
+    <script src="../python.min.js" defer></script>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; max-width: 900px; margin: 40px auto; padding: 0 20px; line-height: 1.7; }
+        
+        /* 💡 제목과 홈 버튼을 정렬하기 위한 상단 헤더 컨테이너 */
+        .blog-header {
+            display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #eee; padding-bottom: 12px; margin-bottom: 20px;
+        }
+        .blog-header-title { 
+            font-size: 2rem; font-weight: bold; color: #24292e; text-decoration: none;
+        }
+        .blog-header-title:hover { color: #0066cc; }
+
+        /* 💡 www.intro-lab.com 외부 이동 홈 버튼 스타일 */
+        .home-btn {
+            font-size: 0.95rem; font-weight: normal; color: #57606a; text-decoration: none; padding: 6px 12px; border: 1px solid #d0d7de; border-radius: 6px; background-color: #f6f8fa; transition: all 0.2s;
+        }
+        .home-btn:hover { background-color: #f3f4f6; color: #24292e; border-color: #8c959f; }
+
+        /* 💡 홈으로 돌아가는 링크도 한 단계 상위인 ../index.html로 지정 */
+        .back-link { display: inline-block; margin-bottom: 20px; color: #0066cc; text-decoration: none; font-weight: bold; }
+        .back-link:hover { text-decoration: underline; }
+        .post-content { padding: 30px; border: 1px solid #e1e4e8; border-radius: 8px; background: #ffffff; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+        .post-content pre { background-color: #f6f8fa !important; padding: 16px; border-radius: 6px; overflow-x: auto; }
+        .post-content code { font-family: Consolas, Monaco, monospace; font-size: 14px; }
+        
+        @media (max-width: 480px) {
+            body { margin: 20px auto; padding: 0 12px; }
+            .blog-header { padding-bottom: 8px; margin-bottom: 15px; }
+            .blog-header-title { font-size: 1.5rem; }
+            .home-btn { font-size: 0.85rem; padding: 4px 8px; }
+            .post-content { padding: 15px; }
+            .post-content h1 { font-size: 1.4rem !important; line-height: 1.4; }
+            .post-content h2 { font-size: 1.2rem !important; }
+            .post-content pre { padding: 12px; }
+            .post-content code { font-size: 12px; }
+        }
+    </style>
+</head>
+<body>
+    <header class="blog-header">
+        <a href="../index.html" class="blog-header-title">📝 intRo-Lab. Blog </a>
+        <a href="https://www.intro-lab.com" target="_blank" class="home-btn">🏠 홈으로 가기</a>
+    </header>
+    
+    <a href="../index.html" class="back-link">⬅️ 글 목록으로 돌아가기</a>
+    <div class="post-content markdown-body"><h1>파이썬 코드 리뷰 테스트 3 (2026-07-07(3))</h1>
+<p>파이썬 코드 설명  </p>
+<p>$A = \pi r^2$</p>
+<pre><code class="language-python">import math
+
+def calculate_circle_area(radius):
+    &quot;&quot;&quot;원의 넓이를 계산하여 반환합니다.&quot;&quot;&quot;
+    if radius &lt; 0:
+        raise ValueError(&quot;반지름은 음수일 수 없습니다.&quot;)
+        
+    return math.pi * (radius ** 2)
+
+# 코드 실행 예시
+print(calculate_circle_area(5.0))
+</code></pre>
+</div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            if (typeof hljs !== 'undefined') {
+                document.querySelectorAll('pre code').forEach((el) => { hljs.highlightElement(el); });
+            }
+        });
+    </script>
+</body>
+</html>
