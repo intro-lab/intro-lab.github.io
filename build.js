@@ -78,7 +78,7 @@ const indexTemplate = (linksHtml) => `<!DOCTYPE html>
     </style>
 </head>
 <body>
-    <h1>📝 나의 블로그 포스트</h1>
+    <h1>📝 intRo-Lab. Blog</h1>
     <ul class="post-list">${linksHtml}</ul>
 </body>
 </html>`;
