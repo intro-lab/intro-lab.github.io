@@ -10,6 +10,20 @@
     <script src="python.min.js" defer></script>
     <style>
         body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; max-width: 900px; margin: 40px auto; padding: 0 20px; line-height: 1.7; }
+        
+        /* 💡 최상단 블로그 제목 스타일 */
+        .blog-header-title { 
+            display: block;
+            font-size: 2rem; 
+            font-weight: bold; 
+            color: #24292e; 
+            text-decoration: none; 
+            border-bottom: 2px solid #eee; 
+            padding-bottom: 12px; 
+            margin-bottom: 20px;
+        }
+        .blog-header-title:hover { color: #0066cc; }
+
         .back-link { display: inline-block; margin-bottom: 20px; color: #0066cc; text-decoration: none; font-weight: bold; }
         .back-link:hover { text-decoration: underline; }
         .post-content { padding: 30px; border: 1px solid #e1e4e8; border-radius: 8px; background: #ffffff; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
@@ -19,6 +33,7 @@
         /* 📱 본문 내부 모바일 반응형 디자인 */
         @media (max-width: 480px) {
             body { margin: 20px auto; padding: 0 12px; }
+            .blog-header-title { font-size: 1.6rem; padding-bottom: 8px; margin-bottom: 15px; }
             .post-content { padding: 15px; }
             .post-content h1 { font-size: 1.4rem !important; line-height: 1.4; }
             .post-content h2 { font-size: 1.2rem !important; }
@@ -29,6 +44,8 @@
     </style>
 </head>
 <body>
+    <a href="index.html" class="blog-header-title">📝 나의 블로그 포스트</a>
+
     <a href="index.html" class="back-link">⬅️ 글 목록으로 돌아가기</a>
     <div class="post-content markdown-body"><h1>나의 첫 번째 블로그 글</h1>
 <p>작성일: 2026-06-30</p>
