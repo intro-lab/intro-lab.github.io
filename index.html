@@ -4,137 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>나의 심플 블로그</title>
-    <link rel="stylesheet" href="github-markdown.min.css">
-    <link rel="stylesheet" href="github.min.css">
-    
-    <script src="marked.min.js"></script>
-    <script src="highlight.js"></script>
-    <script src="python.min.js"></script>
-    
     <style>
-        /* 기본 레이아웃: PC화면을 기준으로 넓고 여유롭게 설정 */
-        body { 
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; 
-            max-width: 1200px; /* 💡 PC에서 더 시원하게 보이도록 전체 가로폭을 800px -> 1200px로 확장 */
-            margin: 40px auto; /* 상하 여백을 늘려 안정감 부여 */
-            padding: 0 20px; 
-            line-height: 1.7; 
-            word-break: break-word; 
-        }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; max-width: 900px; margin: 40px auto; padding: 0 20px; line-height: 1.7; }
         h1 { border-bottom: 2px solid #eee; padding-bottom: 12px; font-size: 2rem; }
         .post-list { list-style: none; padding: 0; }
-        
-        /* 각 포스트 항목 컨테이너 */
-        .post-item {
-            margin: 20px 0;
-            border-bottom: 1px dashed #eee;
-            padding-bottom: 15px;
-        }
-        
-        .post-title { 
-            cursor: pointer; 
-            color: #0066cc; 
-            text-decoration: underline; 
-            font-weight: bold; 
-            display: inline-block;
-            font-size: 1.1rem; /* PC에서 제목이 더 잘 보이도록 소폭 확대 */
-        }
-        .post-title:hover {
-            color: #004499;
-        }
-        
-        /* 💡 본문 스타일: PC 화면에서 넓고 쾌적한 여백 적용 */
-        .post-content { 
-            margin-top: 20px; 
-            padding: 30px; /* 💡 내부 패딩을 30px로 늘려 본문 텍스트와 코드 블록이 넓게 배치되도록 수정 */
-            border: 1px solid #e1e4e8; 
-            border-radius: 8px;
-            background: #ffffff; 
-            box-shadow: 0 2px 8px rgba(0,0,0,0.06); /* 그림자를 살짝 부드럽게 키워 고급스럽게 연출 */
-            display: none; 
-            font-size: 16px; /* 본문 글씨 크기 최적화 */
-            color: #24292e;
-        }
-        .post-content h1 { font-size: 24px; border-bottom: 1px solid #eee; padding-bottom: 8px; }
-        .post-content h2 { font-size: 20px; }
-
-        /* 코드 블록도 PC 가로폭에 맞춰 시원하게 확장 */
-        .post-content pre {
-            background-color: #f6f8fa !important; 
-            padding: 16px; 
-            border-radius: 6px;
-            overflow-x: auto; 
-            -webkit-overflow-scrolling: touch; 
-        }
-        .post-content code {
-            font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
-            font-size: 14px; 
-        }
-
-        /* 📱 모바일 화면(최대 480px 이하) 환경을 위한 반응형 대응 */
-        @media (max-width: 480px) {
-            body { margin: 15px auto; padding: 0 12px; }
-            h1 { font-size: 1.5rem; }
-            .post-title { font-size: 1rem; }
-            .post-content { 
-                padding: 15px; /* 모바일에서는 화면 확보를 위해 여백을 타이트하게 조절 */
-                margin-top: 12px; 
-                font-size: 14px;
-            }
-            .post-content h1 { font-size: 18px; }
-            .post-content h2 { font-size: 16px; }
-            .post-content code { font-size: 12px; }
-        }
+        .post-item { margin: 20px 0; border-bottom: 1px dashed #eee; padding-bottom: 15px; }
+        .post-link { color: #0066cc; text-decoration: underline; font-weight: bold; font-size: 1.1rem; }
     </style>
 </head>
 <body>
-
     <h1>📝 나의 블로그 포스트</h1>
-    
-    <ul class="post-list">
-        <li class="post-item">
-            <div class="post-title" onclick="loadPost('post0002.md', this)">파이썬 코드 리뷰 테스트 (2026-07-07)</div>
-            <div class="post-content markdown-body"></div>
-        </li>
-        <li class="post-item">
-            <div class="post-title" onclick="loadPost('post0001.md', this)">나의 첫 번째 블로그 글 (2026-06-30)</div>
-            <div class="post-content markdown-body"></div>
-        </li>
-    </ul>
-
-    <script>
-        async function loadPost(fileName, element) {
-            try {
-                const contentDiv = element.nextElementSibling;
-                
-                // 토글 기능 (이미 열려있으면 닫기)
-                if (contentDiv.style.display === 'block') {
-                    contentDiv.style.display = 'none';
-                    return;
-                }
-                
-                // 다른 본문 창 닫기
-                document.querySelectorAll('.post-content').forEach(div => div.style.display = 'none');
-
-                const response = await fetch(`${fileName}?v=${Date.now()}`);
-                if (!response.ok) throw new Error('파일을 찾을 수 없습니다.');
-                
-                const textData = await response.text();
-                
-                // 마크다운 렌더링 및 노출
-                contentDiv.innerHTML = marked.parse(textData);
-                contentDiv.style.display = 'block';
-                
-                // 코드 하이라이트 실시간 적용
-                contentDiv.querySelectorAll('pre code').forEach((el) => {
-                    hljs.highlightElement(el);
-                });
-                
-            } catch (error) {
-                alert('글을 불러오는 중 오류가 발생했습니다: ' + error.message);
-            }
-        }
-    </script>
-
+    <ul class="post-list"><li class="post-item"><a href="post0002.html" class="post-link">post0002</a></li>
+<li class="post-item"><a href="post0001.html" class="post-link">post0001</a></li>
+</ul>
 </body>
 </html>
