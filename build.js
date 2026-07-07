@@ -67,7 +67,7 @@ const indexTemplate = (linksHtml) => `<!DOCTYPE html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>나의 심플 블로그</title>
+    <title>intRo-Lab. Blog</title>
     ${ADSENSE_CODE} <style>
         body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; max-width: 900px; margin: 40px auto; padding: 0 20px; line-height: 1.7; }
         h1 { border-bottom: 2px solid #eee; padding-bottom: 12px; font-size: 2rem; }
