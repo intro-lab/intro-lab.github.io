@@ -58,10 +58,28 @@ const indexTemplate = (linksHtml) => `<!DOCTYPE html>
 </body>
 </html>`;
 
+// 💡 마크다운 파일에서 제목(title)을 정규식으로 추출하는 헬퍼 함수
+function parsePost(mdContent, defaultTitle) {
+    const match = mdContent.match(/^---\s*\n([\s\S]*?)\n---\s*\n/);
+    let title = defaultTitle;
+    let body = mdContent;
+
+    if (match) {
+        const metadata = match[1];
+        body = mdContent.replace(match[0], ''); // 껍데기 메타데이터 제거 후 본문만 남김
+        
+        const titleMatch = metadata.match(/^title:\s*["']?(.*?)["']?$/m);
+        if (titleMatch) {
+            title = titleMatch[1];
+        }
+    }
+    return { title, body };
+}
+
 function buildBlog() {
     if (!fs.existsSync(postsDir)) fs.mkdirSync(postsDir);
     const files = fs.readdirSync(postsDir);
-    const markdownFiles = files.filter(file => file.endsWith('.md')).sort().reverse(); // 최신글 상단 배치
+    const markdownFiles = files.filter(file => file.endsWith('.md')).sort().reverse();
 
     let linksHtml = '';
 
@@ -70,19 +88,22 @@ function buildBlog() {
         const mdContent = fs.readFileSync(filePath, 'utf-8');
         const fileNameWithoutExt = path.parse(file).name;
         
+        // 💡 파일명 대신 내부 진짜 제목 추출
+        const { title, body } = parsePost(mdContent, fileNameWithoutExt);
+        
         // 본문 변환 및 저장
-        const htmlContent = marked.parse(mdContent);
-        const finalHtml = htmlTemplate(fileNameWithoutExt, htmlContent);
+        const htmlContent = marked.parse(body);
+        const finalHtml = htmlTemplate(title, htmlContent);
         fs.writeFileSync(path.join(outputDir, `${fileNameWithoutExt}.html`), finalHtml, 'utf-8');
 
-        // 메인 목록에 넣을 링크 태그 조립
-        linksHtml += `<li class="post-item"><a href="${fileNameWithoutExt}.html" class="post-link">${fileNameWithoutExt}</a></li>\n`;
+        // 💡 갱신된 진짜 제목(title)을 링크 텍스트로 주입!
+        linksHtml += `<li class="post-item"><a href="${fileNameWithoutExt}.html" class="post-link">${title}</a></li>\n`;
     });
 
     // index.html 자동 갱신
     const finalIndex = indexTemplate(linksHtml || '<p>등록된 글이 없습니다.</p>');
     fs.writeFileSync(path.join(outputDir, 'index.html'), finalIndex, 'utf-8');
-    console.log('🎉 깃허브 빌드 완료!');
+    console.log('🎉 깃허브 빌드 완료! 목록과 실제 글 제목이 일치합니다.');
 }
 
 buildBlog();
