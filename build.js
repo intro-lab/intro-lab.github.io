@@ -14,6 +14,7 @@ const htmlTemplate = (title, content) => `<!DOCTYPE html>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>${title} - intRo-Lab. Blog</title>
+    <link rel="icon" href="../web_icon.ico">
     ${ADSENSE_CODE}
     <link rel="stylesheet" href="../github-markdown.min.css">
     <link rel="stylesheet" href="../github.min.css">
@@ -106,6 +107,7 @@ const indexTemplate = (linksHtml) => `<!DOCTYPE html>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>intRo-Lab. Blog</title>
+    <link rel="icon" href="web_icon.ico">
     ${ADSENSE_CODE}
     <style>
         body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; max-width: 900px; margin: 40px auto; padding: 0 20px; line-height: 1.7; }
