@@ -26,6 +26,18 @@
         /* 마크다운 변환 후 제목 스타일 정의 */
         #post-content h1 { font-size: 24px; border-bottom: 1px solid #eee; padding-bottom: 5px; }
         #post-content h2 { font-size: 20px; }
+
+        /* 3. [추가] 코드 블록 가독성을 높이기 위한 내부 여백 및 둥근 테두리 디자인 추가 */
+        #post-content pre {
+            background-color: #f6f8fa;
+            padding: 16px;
+            border-radius: 6px;
+            overflow: auto;
+        }
+        #post-content code {
+            font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+            font-size: 14px;
+        }
     </style>
 </head>
 <body>
@@ -43,6 +55,15 @@
     <div id="post-content"></div>
 
     <script>
+        // 4. [추가] marked가 마크다운을 해석할 때 highlight.js 엔진을 거치도록 설정합니다.
+        marked.setOptions({
+            highlight: function (code, lang) {
+                const language = hljs.getLanguage(lang) ? lang : 'plaintext';
+                return hljs.highlight(code, { language }).value;
+            },
+            langPrefix: 'hljs language-' // 테마 CSS와 연동하기 위한 필수 클래스명 접두사
+        });
+
         async function loadPost(fileName) {
             try {
                 // [핵심] 파일명 뒤에 실시간 번호를 붙여 GitHub Pages의 무한 로딩을 완전히 무력화합니다
