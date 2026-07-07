@@ -24,10 +24,20 @@ const htmlTemplate = (title, content) => `<!DOCTYPE html>
     <style>
         body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; max-width: 900px; margin: 40px auto; padding: 0 20px; line-height: 1.7; }
         
+        /* 💡 제목과 홈 버튼을 정렬하기 위한 상단 헤더 컨테이너 */
+        .blog-header {
+            display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #eee; padding-bottom: 12px; margin-bottom: 20px;
+        }
         .blog-header-title { 
-            display: block; font-size: 2rem; font-weight: bold; color: #24292e; text-decoration: none; border-bottom: 2px solid #eee; padding-bottom: 12px; margin-bottom: 20px;
+            font-size: 2rem; font-weight: bold; color: #24292e; text-decoration: none;
         }
         .blog-header-title:hover { color: #0066cc; }
+
+        /* 💡 www.intro-lab.com 외부 이동 홈 버튼 스타일 */
+        .home-btn {
+            font-size: 0.95rem; font-weight: normal; color: #57606a; text-decoration: none; padding: 6px 12px; border: 1px solid #d0d7de; border-radius: 6px; background-color: #f6f8fa; transition: all 0.2s;
+        }
+        .home-btn:hover { background-color: #f3f4f6; color: #24292e; border-color: #8c959f; }
 
         /* 💡 홈으로 돌아가는 링크도 한 단계 상위인 ../index.html로 지정 */
         .back-link { display: inline-block; margin-bottom: 20px; color: #0066cc; text-decoration: none; font-weight: bold; }
@@ -38,7 +48,9 @@ const htmlTemplate = (title, content) => `<!DOCTYPE html>
         
         @media (max-width: 480px) {
             body { margin: 20px auto; padding: 0 12px; }
-            .blog-header-title { font-size: 1.6rem; padding-bottom: 8px; margin-bottom: 15px; }
+            .blog-header { padding-bottom: 8px; margin-bottom: 15px; }
+            .blog-header-title { font-size: 1.5rem; }
+            .home-btn { font-size: 0.85rem; padding: 4px 8px; }
             .post-content { padding: 15px; }
             .post-content h1 { font-size: 1.4rem !important; line-height: 1.4; }
             .post-content h2 { font-size: 1.2rem !important; }
@@ -48,7 +60,11 @@ const htmlTemplate = (title, content) => `<!DOCTYPE html>
     </style>
 </head>
 <body>
-    <a href="../index.html" class="blog-header-title">📝 intRo-Lab. Blog </a>
+    <header class="blog-header">
+        <a href="../index.html" class="blog-header-title">📝 intRo-Lab. Blog </a>
+        <a href="https://www.intro-lab.com" target="_blank" class="home-btn">🏠 홈으로 가기</a>
+    </header>
+    
     <a href="../index.html" class="back-link">⬅️ 글 목록으로 돌아가기</a>
     <div class="post-content markdown-body">${content}</div>
     <script>
@@ -70,7 +86,19 @@ const indexTemplate = (linksHtml) => `<!DOCTYPE html>
     <title>intRo-Lab. Blog</title>
     ${ADSENSE_CODE} <style>
         body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; max-width: 900px; margin: 40px auto; padding: 0 20px; line-height: 1.7; }
-        h1 { border-bottom: 2px solid #eee; padding-bottom: 12px; font-size: 2rem; }
+        
+        /* 💡 메인 목록 상단 헤더 컨테이너 */
+        .blog-header {
+            display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #eee; padding-bottom: 12px; margin-bottom: 20px;
+        }
+        .blog-header h1 { margin: 0; font-size: 2rem; }
+
+        /* 💡 www.intro-lab.com 외부 이동 홈 버튼 스타일 */
+        .home-btn {
+            font-size: 0.95rem; font-weight: normal; color: #57606a; text-decoration: none; padding: 6px 12px; border: 1px solid #d0d7de; border-radius: 6px; background-color: #f6f8fa; transition: all 0.2s;
+        }
+        .home-btn:hover { background-color: #f3f4f6; color: #24292e; border-color: #8c959f; }
+
         .post-list { list-style: none; padding: 0; }
         .post-item { margin: 22px 0; border-bottom: 1px dashed #eee; padding-bottom: 18px; }
         .post-link { color: #0066cc; text-decoration: underline; font-weight: bold; font-size: 1.25rem; }
@@ -78,14 +106,19 @@ const indexTemplate = (linksHtml) => `<!DOCTYPE html>
         
         @media (max-width: 480px) {
             body { margin: 20px auto; padding: 0 12px; }
-            h1 { font-size: 1.6rem; padding-bottom: 8px; }
+            .blog-header { padding-bottom: 8px; }
+            .blog-header h1 { font-size: 1.5rem; }
+            .home-btn { font-size: 0.85rem; padding: 4px 8px; }
             .post-item { margin: 16px 0; padding-bottom: 12px; }
             .post-link { font-size: 1.1rem; line-height: 1.4; }
         }
     </style>
 </head>
 <body>
-    <h1>📝 intRo-Lab. Blog </h1>
+    <header class="blog-header">
+        <h1>📝 intRo-Lab. Blog </h1>
+        <a href="https://www.intro-lab.com" target="_blank" class="home-btn">🏠 홈으로 가기</a>
+    </header>
     <ul class="post-list">${linksHtml}</ul>
 </body>
 </html>`;
