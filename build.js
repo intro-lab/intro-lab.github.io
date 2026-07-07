@@ -59,7 +59,20 @@ const htmlTemplate = (title, content) => `<!DOCTYPE html>
         .katex, .katex * { font-family: KaTeX_Main, Times New Roman, serif !important; margin: 0 !important; padding: 0 !important; }
         
         @media (max-width: 480px) {
-            body, html { margin: 20px auto; padding: 0 12px; }
+            /* 1. 페이지 전체 가로 스크롤 방지 */
+            body, html { 
+                margin: 0 auto !important; 
+                padding: 0 10px !important; 
+                width: 100vw !important; /* 뷰포트 너비 고정 */
+                overflow-x: hidden !important; /* 핵심: 가로 넘침 무조건 숨김 */
+            }
+
+            /* 2. 본문 컨테이너 강제 제약 */
+            .post-content { 
+                padding: 12px !important; 
+                width: 100% !important; 
+                box-sizing: border-box !important;
+            }
 
             /* 3. 표(Table) 전용 반응형 설정 */
             .markdown-body table { 
@@ -70,6 +83,7 @@ const htmlTemplate = (title, content) => `<!DOCTYPE html>
                 white-space: nowrap; 
             }
             
+            /* 기존 스타일 유지 */
             .blog-header { padding-bottom: 8px; margin-bottom: 15px; }
             .blog-header-title { font-size: 1.2rem !important; }
             .home-btn { font-size: 0.8rem; padding: 3px 6px; }
