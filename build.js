@@ -108,7 +108,7 @@ const indexTemplate = (linksHtml) => `<!DOCTYPE html>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>intRo-Lab. Blog</title>
     <link rel="icon" href="web_icon.ico">
-    ${ADSENSE_CODE}
+   
     <style>
         body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; max-width: 900px; margin: 40px auto; padding: 0 20px; line-height: 1.7; }
         .blog-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #eee; padding-bottom: 12px; margin-bottom: 20px; }
