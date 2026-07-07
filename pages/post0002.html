@@ -49,14 +49,7 @@
         .katex, .katex * { font-family: KaTeX_Main, Times New Roman, serif !important; margin: 0 !important; padding: 0 !important; }
         
         @media (max-width: 480px) {
-            /* 1. 페이지 전체 가로 스크롤 방지 */
-            body, html { 
-                margin: 0 auto !important; 
-                padding: 0 10px !important; 
-                width: 100vw !important; /* 뷰포트 너비 고정 */
-                overflow-x: hidden !important; /* 핵심: 가로 넘침 무조건 숨김 */
-            }
-
+            body, html { margin: 20px auto; padding: 0 12px; }
             .blog-header { padding-bottom: 8px; margin-bottom: 15px; }
             .blog-header-title { font-size: 1.2rem !important; }
             .home-btn { font-size: 0.8rem; padding: 3px 6px; }
