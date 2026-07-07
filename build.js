@@ -67,23 +67,6 @@ const htmlTemplate = (title, content) => `<!DOCTYPE html>
                 overflow-x: hidden !important; /* 핵심: 가로 넘침 무조건 숨김 */
             }
 
-            /* 2. 본문 컨테이너 강제 제약 */
-            .post-content { 
-                padding: 12px !important; 
-                width: 100% !important; 
-                box-sizing: border-box !important;
-            }
-
-            /* 3. 표(Table) 전용 반응형 설정 */
-            .markdown-body table { 
-                display: block !important; 
-                width: 100% !important; 
-                overflow-x: auto !important; /* 표 영역 안에서만 스크롤 허용 */
-                -webkit-overflow-scrolling: touch; 
-                white-space: nowrap; 
-            }
-            
-            /* 기존 스타일 유지 */
             .blog-header { padding-bottom: 8px; margin-bottom: 15px; }
             .blog-header-title { font-size: 1.2rem !important; }
             .home-btn { font-size: 0.8rem; padding: 3px 6px; }
