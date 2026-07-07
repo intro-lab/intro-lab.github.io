@@ -59,7 +59,7 @@ const htmlTemplate = (title, content) => `<!DOCTYPE html>
         .katex, .katex * { font-family: KaTeX_Main, Times New Roman, serif !important; margin: 0 !important; padding: 0 !important; }
         
         @media (max-width: 480px) {
-            body, html { margin: 20px auto; padding: 0 12px; }
+            body, html { margin: 20px auto; padding: 0 6px; }
             .blog-header { padding-bottom: 8px; margin-bottom: 15px; }
             .blog-header-title { font-size: 1.2rem !important; }
             .home-btn { font-size: 0.8rem; padding: 3px 6px; }
