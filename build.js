@@ -75,7 +75,7 @@ const htmlTemplate = (title, content) => `<!DOCTYPE html>
 <body>
     <header class="blog-header">
         <a href="../index.html" class="blog-header-title">📝 intRo-Lab. Blog</a>
-        <a href="https://www.intro-lab.com" target="_blank" class="home-btn">🏠 홈으로 가기</a>
+        <a href="https://www.intro-lab.com" target="_blank" class="home-btn">🏠 HOME</a>
     </header>
     <a href="../index.html" class="back-link">⬅️ 글 목록으로 돌아가기</a>
     <div class="post-content markdown-body">${content}</div>
@@ -130,7 +130,7 @@ const indexTemplate = (linksHtml) => `<!DOCTYPE html>
 <body>
     <header class="blog-header">
         <h1>📝 intRo-Lab. Blog</h1>
-        <a href="https://www.intro-lab.com" target="_blank" class="home-btn">🏠 홈으로 가기</a>
+        <a href="https://www.intro-lab.com" target="_blank" class="home-btn">🏠 HOME</a>
     </header>
     <ul class="post-list">${linksHtml}</ul>
 </body>
