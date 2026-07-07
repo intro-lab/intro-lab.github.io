@@ -19,9 +19,22 @@ const htmlTemplate = (title, content) => `<!DOCTYPE html>
     <style>
         body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; max-width: 900px; margin: 40px auto; padding: 0 20px; line-height: 1.7; }
         .back-link { display: inline-block; margin-bottom: 20px; color: #0066cc; text-decoration: none; font-weight: bold; }
+        .back-link:hover { text-decoration: underline; }
         .post-content { padding: 30px; border: 1px solid #e1e4e8; border-radius: 8px; background: #ffffff; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
         .post-content pre { background-color: #f6f8fa !important; padding: 16px; border-radius: 6px; overflow-x: auto; }
         .post-content code { font-family: Consolas, Monaco, monospace; font-size: 14px; }
+        
+        /* 📱 본문 내부 모바일 반응형 디자인 보정 */
+        @media (max-width: 480px) {
+            body { margin: 20px auto; padding: 0 12px; }
+            .post-content { padding: 15px; }
+            /* 마크다운 변환 후 들어오는 h1, h2 등 대제목 크기를 스마트폰에 맞게 대폭 축소 */
+            .post-content h1 { font-size: 1.4rem !important; line-height: 1.4; }
+            .post-content h2 { font-size: 1.2rem !important; }
+            .post-content h3 { font-size: 1.1rem !important; }
+            .post-content pre { padding: 12px; }
+            .post-content code { font-size: 12px; }
+        }
     </style>
 </head>
 <body>
@@ -50,6 +63,16 @@ const indexTemplate = (linksHtml) => `<!DOCTYPE html>
         .post-list { list-style: none; padding: 0; }
         .post-item { margin: 20px 0; border-bottom: 1px dashed #eee; padding-bottom: 15px; }
         .post-link { color: #0066cc; text-decoration: underline; font-weight: bold; font-size: 1.1rem; }
+        
+        /* 📱 메인 대문 모바일 반응형 디자인 보정 */
+        @media (max-width: 480px) {
+            body { margin: 20px auto; padding: 0 12px; }
+            /* '📝 나의 블로그 포스트' 메인 타이틀 크기 축소 */
+            h1 { font-size: 1.5rem; padding-bottom: 8px; }
+            /* 글 제목 목록 폰트 크기 및 간격 축소 */
+            .post-item { margin: 12px 0; padding-bottom: 10px; }
+            .post-link { font-size: 0.95rem; line-height: 1.4; }
+        }
     </style>
 </head>
 <body>
@@ -58,7 +81,6 @@ const indexTemplate = (linksHtml) => `<!DOCTYPE html>
 </body>
 </html>`;
 
-// 💡 마크다운 파일에서 제목(title)을 정규식으로 추출하는 헬퍼 함수
 function parsePost(mdContent, defaultTitle) {
     const match = mdContent.match(/^---\s*\n([\s\S]*?)\n---\s*\n/);
     let title = defaultTitle;
@@ -66,12 +88,9 @@ function parsePost(mdContent, defaultTitle) {
 
     if (match) {
         const metadata = match[1];
-        body = mdContent.replace(match[0], ''); // 껍데기 메타데이터 제거 후 본문만 남김
-        
+        body = mdContent.replace(match[0], '');
         const titleMatch = metadata.match(/^title:\s*["']?(.*?)["']?$/m);
-        if (titleMatch) {
-            title = titleMatch[1];
-        }
+        if (titleMatch) title = titleMatch[1];
     }
     return { title, body };
 }
@@ -88,22 +107,18 @@ function buildBlog() {
         const mdContent = fs.readFileSync(filePath, 'utf-8');
         const fileNameWithoutExt = path.parse(file).name;
         
-        // 💡 파일명 대신 내부 진짜 제목 추출
         const { title, body } = parsePost(mdContent, fileNameWithoutExt);
         
-        // 본문 변환 및 저장
         const htmlContent = marked.parse(body);
         const finalHtml = htmlTemplate(title, htmlContent);
         fs.writeFileSync(path.join(outputDir, `${fileNameWithoutExt}.html`), finalHtml, 'utf-8');
 
-        // 💡 갱신된 진짜 제목(title)을 링크 텍스트로 주입!
         linksHtml += `<li class="post-item"><a href="${fileNameWithoutExt}.html" class="post-link">${title}</a></li>\n`;
     });
 
-    // index.html 자동 갱신
     const finalIndex = indexTemplate(linksHtml || '<p>등록된 글이 없습니다.</p>');
     fs.writeFileSync(path.join(outputDir, 'index.html'), finalIndex, 'utf-8');
-    console.log('🎉 깃허브 빌드 완료! 목록과 실제 글 제목이 일치합니다.');
+    console.log('🎉 모바일 제목 크기 최적화 빌드 완료!');
 }
 
 buildBlog();
