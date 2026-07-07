@@ -7,7 +7,7 @@ const outputDir = path.join(__dirname, 'pages');
 
 const ADSENSE_CODE = `<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5588756282976438" crossorigin="anonymous"></script>`;
 
-// 1. 본문 HTML 템플릿 (이미지 반응형 스타일 추가 버전)
+// 1. 본문 HTML 템플릿 (반응형 표 스타일 포함)
 const htmlTemplate = (title, content) => `<!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -23,7 +23,6 @@ const htmlTemplate = (title, content) => `<!DOCTYPE html>
     <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" defer></script>
     <style>
-        /* 레이아웃 여백은 오직 최상위 body에만 단 한 번 부여 */
         body, html { 
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", "Arial", "Malgun Gothic", "맑은 고딕", sans-serif; 
             max-width: 900px; 
@@ -33,11 +32,8 @@ const htmlTemplate = (title, content) => `<!DOCTYPE html>
             color: #24292e;
             background-color: #ffffff;
         }
-        p, span, a, div {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", "Arial", "Malgun Gothic", "맑은 고딕", sans-serif; 
-        }
-        h1, h2, h3, h4, h5, h6,
-        .markdown-body h1, .markdown-body h2, .markdown-body h3, .markdown-body h4 {
+        p, span, a, div { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", "Arial", "Malgun Gothic", "맑은 고딕", sans-serif; }
+        h1, h2, h3, h4, h5, h6, .markdown-body h1, .markdown-body h2, .markdown-body h3, .markdown-body h4 {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", "Arial", "Malgun Gothic", "맑은 고딕", sans-serif !important;
             font-weight: bold;
         }
@@ -51,42 +47,25 @@ const htmlTemplate = (title, content) => `<!DOCTYPE html>
         .post-content { padding: 30px; border: 1px solid #e1e4e8; border-radius: 8px; background: #ffffff; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
         .post-content pre { background-color: #f6f8fa !important; padding: 16px; border-radius: 6px; overflow-x: auto; }
         
-        /* 💡 팁: 마크다운 내부 이미지가 본문 폭을 넘지 않도록 하고 중앙 정렬 */
-        .markdown-body img {
-            max-width: 100%;
-            height: auto;
-            display: block;
-            margin: 20px auto;
-            border-radius: 6px;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-        }
+        /* 이미지 반응형 설정 */
+        .markdown-body img { max-width: 100%; height: auto; display: block; margin: 20px auto; border-radius: 6px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
         
-        /* 코드 블록 내부의 span 여백 변형 차단 */
-        .post-content pre code, .post-content pre code span { 
-            font-family: Consolas, Monaco, monospace !important; 
-            font-size: 14px;
-            margin: 0 !important;
-            padding: 0 !important;
-            line-height: 1.5;
-        }
-        
+        /* 💡 반응형 표(Table) 스타일 */
+        .markdown-body table { display: block; width: 100%; overflow-x: auto; white-space: nowrap; border-collapse: collapse; margin-bottom: 1.5em; }
+        .markdown-body table th, .markdown-body table td { padding: 10px 14px; border: 1px solid #dfe2e5; }
+        .markdown-body table th { background-color: #f6f8fa; font-weight: 600; }
+        .markdown-body table tr:nth-child(even) { background-color: #f9f9f9; }
+
+        .post-content pre code, .post-content pre code span { font-family: Consolas, Monaco, monospace !important; font-size: 14px; margin: 0 !important; padding: 0 !important; line-height: 1.5; }
         .katex-display { margin: 1.2em 0; overflow-x: auto; overflow-y: hidden; }
-        
-        /* 오직 수식 기호 영역과 그 하위 요소들에만 KaTeX 전용 서체를 할당하고 여백 변형 차단 */
-        .katex, .katex * { 
-            font-family: KaTeX_Main, Times New Roman, serif !important; 
-            margin: 0 !important;
-            padding: 0 !important;
-        }
+        .katex, .katex * { font-family: KaTeX_Main, Times New Roman, serif !important; margin: 0 !important; padding: 0 !important; }
         @media (max-width: 480px) {
             body, html { margin: 20px auto; padding: 0 12px; }
             .blog-header { padding-bottom: 8px; margin-bottom: 15px; }
             .blog-header-title { font-size: 1.5rem; }
             .home-btn { font-size: 0.85rem; padding: 4px 8px; }
             .post-content { padding: 15px; }
-            .post-content h1 { font-size: 1.4rem !important; line-height: 1.4; }
-            .post-content h2 { font-size: 1.2rem !important; }
-            .post-content pre { padding: 12px; }
+            .post-content table { font-size: 12px; }
             .post-content code, .post-content pre code span { font-size: 12px; }
         }
     </style>
@@ -119,7 +98,6 @@ const htmlTemplate = (title, content) => `<!DOCTYPE html>
 </body>
 </html>`;
 
-// 2. 메인 목록(index.html) 템플릿
 const indexTemplate = (linksHtml) => `<!DOCTYPE html>
 <html lang="ko">
 <head>
