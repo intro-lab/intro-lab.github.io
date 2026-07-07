@@ -48,6 +48,8 @@ const htmlTemplate = (title, content) => `<!DOCTYPE html>
         .post-content pre { background-color: #f6f8fa !important; padding: 16px; border-radius: 6px; overflow-x: auto; }
         
         .markdown-body img { max-width: 100%; height: auto; display: block; margin: 20px auto; border-radius: 6px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
+
+        .markdown-body {  overflow-x: hidden; /* 본문 전체의 가로 스크롤 방지 */  }     
         
         .markdown-body table { display: block; width: 100%; overflow-x: auto; white-space: nowrap; border-collapse: collapse; margin-bottom: 1.5em; }
         .markdown-body table th, .markdown-body table td { padding: 10px 14px; border: 1px solid #dfe2e5; }
