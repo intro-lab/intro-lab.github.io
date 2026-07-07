@@ -1,0 +1,7 @@
+{
+  "name": "simple-md-blog",
+  "version": "1.0.0",
+  "dependencies": {
+    "marked": "^11.1.1"
+  }
+}
