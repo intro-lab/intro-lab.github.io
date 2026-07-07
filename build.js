@@ -58,6 +58,11 @@ const htmlTemplate = (title, content) => `<!DOCTYPE html>
             margin-bottom: 1.5em;
         }
 
+        /* 💡 반응형 표: 컨테이너 고정 및 스크롤 처리 */
+        .markdown-body {
+            overflow-x: hidden; /* 본문 전체의 가로 스크롤 방지 */
+        }
+
         /* 💡 표 내용이 강제로 화면을 밀어내는 것을 방지 */
         .markdown-body table th, 
         .markdown-body table td {
